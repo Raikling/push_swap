@@ -5,8 +5,8 @@ SRCS = $(SRCS_DIR)push_swap.c $(SRCS_DIR)push.c $(SRCS_DIR)swap.c $(SRCS_DIR)rot
 OBJS = $(patsubst $(SRCS_DIR)%.c,$(OBJS_DIR)%.o,$(SRCS))
 LIBFT = Libft/libft.a
 FT_PRINTF = ft_Printf/libftprintf.a
-CC = gcc
-FLAGS = -Wall -Werror -Wextra -g
+CC = cc
+FLAGS = -Wall -Werror -Wextra
 AR = ar rcs
 RM = rm -rf
 
