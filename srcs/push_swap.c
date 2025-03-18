@@ -1,18 +1,6 @@
 
 #include "../push_swap.h"
 
-
-void sort_stack_if_needed(t_stack_node **a, t_stack_node **b)
-{
-    if (stack_sorted(*a))
-        return ;
-    if (stack_len(*a) == 2)
-        sa(a, true);
-    else if (stack_len(*a) == 3)
-        sort_three(a);
-    else
-        sort_stacks(a, b);
-}
 int validate_args(int ac, char **av)
 {
 	int i;
@@ -46,25 +34,36 @@ void free_split_av(char **split_av)
 	free(split_av);
 }
 
+char *fill_all_args(int ac, char **av)
+{
+    int i;
+    char *all_args;
+    char *tmp;
+
+    all_args = ft_strdup(av[1]);
+    i = 2;
+    while (i < ac)
+    {
+        tmp = ft_strjoin(all_args, " ");
+        free(all_args);
+        all_args = ft_strjoin(tmp, av[i]);
+        free(tmp);
+        i++;
+    }
+    return all_args;
+}
 int process_args(int ac, char **av, t_stack_node **a)
 {
-	int i;
 	char *all_args;
 	char **split_av;
-	char *tmp;
 
-	all_args = ft_strdup(av[1]);
-	i = 2;
-	while (i < ac)
-	{
-		tmp = ft_strjoin(all_args, " ");
-		free(all_args);
-		all_args = ft_strjoin(tmp, av[i]);
-		free(tmp);
-		i++;
-	}
+	all_args = fill_all_args(ac, av);
 	split_av = ft_split(all_args, ' ');
-	init_stack_a(a, split_av);
+	if (init_stack_a(a, split_av) != 0)
+	{
+		free(all_args);
+		return(1);
+	}
 	free_split_av(split_av);
 	free(all_args);
 	if (!*a)
@@ -74,25 +73,6 @@ int process_args(int ac, char **av, t_stack_node **a)
 	}
 	return (0);
 }
-int main(int ac, char **av)
-{
-	t_stack_node *a, *b;
-	a = NULL;
-	b = NULL;
-	if (ac == 1)
-		return (0);
-	if (validate_args(ac, av))
-		return (1);
-	if (process_args(ac, av, &a))
-		return (1);
-	sort_stack_if_needed(&a, &b);
-	free_stack(&a);
-	free_stack(&b);
-	return (0);
-}
-
-
-
 
 
 
@@ -106,3 +86,32 @@ int main(int ac, char **av)
 //     }
 //     ft_printf("\n");
 // }
+int main(int ac, char **av)
+{
+	t_stack_node *a, *b;
+	a = NULL;
+	b = NULL;
+	if (ac == 1)
+		return (0);
+	if (validate_args(ac, av))
+		return (1);
+	if (process_args(ac, av, &a))
+		return (1);
+	if (stack_sorted(a))
+		return (0);
+	if (stack_len(a) == 2)
+		sa(&a, true);
+	else if (stack_len(a) == 3)
+		sort_three(&a);
+	else
+		sort_stacks(&a, &b);
+	free_stack(&a);
+	free_stack(&b);
+	return (0);
+}
+
+
+
+
+
+

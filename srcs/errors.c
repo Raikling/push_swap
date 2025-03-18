@@ -59,9 +59,9 @@ void	free_stack(t_stack_node **stack)
 	*stack = NULL;
 }
 
-int 	free_errors(t_stack_node **a) 
+void 	free_errors(t_stack_node **a, char **av) 
 {
 	free_stack(a);
-	write (2, "ErrorY\n", 6);
-    return (0);
+	free_split_av(av);
+	write (2, "Error\n", 6);
 }
