@@ -74,8 +74,6 @@ int process_args(int ac, char **av, t_stack_node **a)
 	return (0);
 }
 
-
-
 // void print_list(t_stack_node *head)
 // {
 //     t_stack_node *current = head;

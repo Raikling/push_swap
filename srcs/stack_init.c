@@ -56,21 +56,12 @@ int init_stack_a(t_stack_node **a, char **av)
 	while (av[i])
 	{
 		if (error_syntax(av[i]))
-		{
-			free_errors(a, av);
-			return (1);
-		}
+			return (free_errors(a, av), 1);
 		value = ft_atol(av[i]);
 		if (value > INT_MAX || value < INT_MIN)
-		{
-			free_errors(a, av);
-			return (1);
-		}
+			return (free_errors(a, av), 1);
 		if (error_dups(*a, (int)value))
-		{
-			free_errors(a, av);
-			return (1);
-		}
+			return (free_errors(a, av), 1);
 		append_node(a, (int)value);
 		i++;
 	}
